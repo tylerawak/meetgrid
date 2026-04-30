@@ -37,13 +37,13 @@
         <div class="form-group hidden" id="recurring-picker">
           <label>Select days</label>
           <div class="day-grid">
+            <button class="day-btn" data-day="Sunday">Sun</button>
             <button class="day-btn" data-day="Monday">Mon</button>
             <button class="day-btn" data-day="Tuesday">Tue</button>
             <button class="day-btn" data-day="Wednesday">Wed</button>
             <button class="day-btn" data-day="Thursday">Thu</button>
             <button class="day-btn" data-day="Friday">Fri</button>
             <button class="day-btn" data-day="Saturday">Sat</button>
-            <button class="day-btn" data-day="Sunday">Sun</button>
           </div>
         </div>
 
@@ -56,6 +56,11 @@
             <label for="end-hour">End time</label>
             <select id="end-hour"></select>
           </div>
+        </div>
+
+        <div class="form-group">
+          <label for="event-timezone">Timezone</label>
+          <select id="event-timezone"></select>
         </div>
 
         <p id="create-error" class="error hidden"></p>
@@ -73,6 +78,13 @@
           <button id="event-copy-btn">Copy link</button>
         </div>
         <p id="event-copy-confirm" class="copy-confirm hidden">Copied!</p>
+      </div>
+
+      <div class="tz-row">
+        <span class="tz-row-label">Times shown in:</span>
+        <span id="display-tz-name"></span>
+        <button id="change-tz-btn" class="tz-change-btn">Change</button>
+        <select id="display-tz-select" class="hidden"></select>
       </div>
 
       <div class="event-layout">
