@@ -84,6 +84,7 @@ const state = {
   responses: [],
   myAvailability: {},
   myResponseId: null,
+  adminToken: null,
 
   eventTz: 'America/New_York',   // timezone stored with the event
   displayTz: localTzValue(),     // what the viewer has chosen to see times in
@@ -384,7 +385,8 @@ async function handleCreate() {
       }),
     });
     if (!res.ok) throw new Error(await res.text());
-    const { id } = await res.json();
+    const { id, adminToken } = await res.json();
+    localStorage.setItem(`meetgrid_admin_${id}`, adminToken);
     history.pushState(null, '', `/?id=${id}`);
     await showEventView(id);
   } catch {
@@ -413,7 +415,8 @@ async function showEventView(id) {
     state.event = data.event;
     state.responses = data.responses || [];
     state.eventTz   = data.event.timezone || 'UTC';
-    state.displayTz = localTzValue(); // default to viewer's local tz
+    state.displayTz = localTzValue();
+    state.adminToken = localStorage.getItem(`meetgrid_admin_${id}`) || null; // default to viewer's local tz
 
     const savedId = localStorage.getItem(`meetgrid_${id}`);
     const savedResponse = state.responses.find(r => r.id === savedId);
@@ -703,13 +706,16 @@ function renderResponseList() {
       nameEl.appendChild(you);
     }
 
-    const delBtn = document.createElement('button');
-    delBtn.className = 'response-del-btn';
-    delBtn.title = 'Remove response';
-    delBtn.textContent = '✕';
-    delBtn.addEventListener('click', () => deleteResponse(r.id));
+    row.appendChild(nameEl);
 
-    row.append(nameEl, delBtn);
+    if (state.adminToken) {
+      const delBtn = document.createElement('button');
+      delBtn.className = 'response-del-btn';
+      delBtn.title = 'Remove response';
+      delBtn.textContent = '✕';
+      delBtn.addEventListener('click', () => deleteResponse(r.id));
+      row.appendChild(delBtn);
+    }
     container.appendChild(row);
   });
 }
@@ -720,6 +726,7 @@ async function deleteResponse(responseId) {
   try {
     const res = await fetch(`/api/events/${state.event.id}/responses/${responseId}`, {
       method: 'DELETE',
+      headers: { 'X-Admin-Token': state.adminToken || '' },
     });
     if (!res.ok) throw new Error();
 
