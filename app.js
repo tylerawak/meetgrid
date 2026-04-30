@@ -373,7 +373,11 @@ async function handleCreate() {
       body: JSON.stringify({
         name,
         type: state.eventType,
-        dates: [...state.selectedDates].sort(),
+        dates: state.eventType === 'recurring'
+          ? [...state.selectedDates].sort((a, b) =>
+              ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].indexOf(a) -
+              ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].indexOf(b))
+          : [...state.selectedDates].sort(),
         startHour: state.startHour,
         endHour: state.endHour,
         timezone: state.eventTz,
@@ -423,6 +427,7 @@ async function showEventView(id) {
     initTzControls();
     renderMyGrid();
     renderResultsGrid();
+    renderResponseList();
 
     submitBtn.addEventListener('click', handleSubmit);
     eventCopyBtn.addEventListener('click', () => {
@@ -671,6 +676,71 @@ function attachTooltipInteraction(grid, responses) {
   grid.addEventListener('mouseleave', () => { hoverTooltip.classList.add('hidden'); });
 }
 
+// ─── Response list ────────────────────────────────────────────────────────────
+
+function renderResponseList() {
+  const container = document.getElementById('response-list');
+  container.innerHTML = '';
+
+  if (state.responses.length === 0) return;
+
+  const header = document.createElement('div');
+  header.className = 'response-list-header';
+  header.textContent = 'Responses';
+  container.appendChild(header);
+
+  state.responses.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'response-row';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'response-name';
+    nameEl.textContent = r.name || 'Anonymous';
+    if (r.id === state.myResponseId) {
+      const you = document.createElement('span');
+      you.className = 'response-you';
+      you.textContent = 'you';
+      nameEl.appendChild(you);
+    }
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'response-del-btn';
+    delBtn.title = 'Remove response';
+    delBtn.textContent = '✕';
+    delBtn.addEventListener('click', () => deleteResponse(r.id));
+
+    row.append(nameEl, delBtn);
+    container.appendChild(row);
+  });
+}
+
+async function deleteResponse(responseId) {
+  if (!confirm('Remove this response?')) return;
+
+  try {
+    const res = await fetch(`/api/events/${state.event.id}/responses/${responseId}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) throw new Error();
+
+    if (responseId === state.myResponseId) {
+      state.myResponseId = null;
+      state.myAvailability = {};
+      localStorage.removeItem(`meetgrid_${state.event.id}`);
+      renderMyGrid();
+    }
+
+    const evRes = await fetch(`/api/events/${state.event.id}`);
+    const evData = await evRes.json();
+    state.responses = evData.responses || [];
+    renderResultsGrid();
+    renderResponseList();
+    responseCount.textContent = `${state.responses.length} response${state.responses.length !== 1 ? 's' : ''}`;
+  } catch {
+    // silent
+  }
+}
+
 // ─── Submit ──────────────────────────────────────────────────────────────────
 
 async function handleSubmit() {
@@ -697,6 +767,7 @@ async function handleSubmit() {
     const evData = await evRes.json();
     state.responses = evData.responses || [];
     renderResultsGrid();
+    renderResponseList();
 
     submitConfirm.classList.remove('hidden');
     setTimeout(() => submitConfirm.classList.add('hidden'), 2000);
