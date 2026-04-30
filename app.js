@@ -449,9 +449,13 @@ function renderEventHeader(id) {
   eventTitle.textContent = ev.name;
   document.title = `${ev.name} – MeetGrid`;
 
-  const dateList = ev.dates.length <= 5
-    ? ev.dates.map(d => formatDateLabel(d, ev.type)).join(', ')
-    : `${ev.dates.length} ${ev.type === 'recurring' ? 'days' : 'dates'}`;
+  const DAY_ORDER = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const sortedDates = ev.type === 'recurring'
+    ? [...ev.dates].sort((a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b))
+    : [...ev.dates].sort();
+  const dateList = sortedDates.length <= 5
+    ? sortedDates.map(d => formatDateLabel(d, ev.type)).join(', ')
+    : `${sortedDates.length} ${ev.type === 'recurring' ? 'days' : 'dates'}`;
   eventMeta.textContent = `${dateList} · ${formatHour(ev.start_hour)} – ${formatHour(ev.end_hour)}`;
 
   eventShareUrl.value = `${location.origin}/?id=${id}`;
@@ -505,7 +509,10 @@ function updateTzLabel() {
 function buildGrid(container, event, opts = {}) {
   const { interactive = false, responses = [], myAvailability = {} } = opts;
   const slots = timeSlots(event.start_hour, event.end_hour);
-  const dates = event.dates;
+  const DAY_ORDER = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const dates = event.type === 'recurring'
+    ? [...event.dates].sort((a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b))
+    : [...event.dates].sort();
   const shift = displayShift(); // minutes to add to slot labels
 
   container.innerHTML = '';
