@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeetGrid</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>MeetGrid</h1>
+      <p class="subtitle">Find a time that works for everyone</p>
+    </header>
+
+    <!-- ── Create Event ───────────────────────────────────────────────────── -->
+    <section id="create-section">
+      <div class="card">
+        <div class="form-group">
+          <label for="event-name">Event name</label>
+          <input type="text" id="event-name" placeholder="Team standup, Birthday party…" autocomplete="off" spellcheck="false" />
+        </div>
+
+        <div class="form-group">
+          <label>Date type</label>
+          <div class="toggle-row">
+            <button class="toggle-btn active" data-type="specific">Specific dates</button>
+            <button class="toggle-btn" data-type="recurring">Days of week</button>
+          </div>
+        </div>
+
+        <div class="form-group" id="specific-picker">
+          <label>Select dates <span class="dim">(click to toggle)</span></label>
+          <div id="date-grid"></div>
+        </div>
+
+        <div class="form-group hidden" id="recurring-picker">
+          <label>Select days</label>
+          <div class="day-grid">
+            <button class="day-btn" data-day="Monday">Mon</button>
+            <button class="day-btn" data-day="Tuesday">Tue</button>
+            <button class="day-btn" data-day="Wednesday">Wed</button>
+            <button class="day-btn" data-day="Thursday">Thu</button>
+            <button class="day-btn" data-day="Friday">Fri</button>
+            <button class="day-btn" data-day="Saturday">Sat</button>
+            <button class="day-btn" data-day="Sunday">Sun</button>
+          </div>
+        </div>
+
+        <div class="form-group time-range-group">
+          <div>
+            <label for="start-hour">Start time</label>
+            <select id="start-hour"></select>
+          </div>
+          <div>
+            <label for="end-hour">End time</label>
+            <select id="end-hour"></select>
+          </div>
+        </div>
+
+        <p id="create-error" class="error hidden"></p>
+        <button id="create-btn">Create event</button>
+      </div>
+    </section>
+
+    <!-- ── Event View ─────────────────────────────────────────────────────── -->
+    <section id="event-section" class="hidden">
+      <div id="event-header">
+        <h2 id="event-title"></h2>
+        <p id="event-meta" class="subtitle"></p>
+        <div class="share-row event-share">
+          <input type="text" id="event-share-url" readonly />
+          <button id="event-copy-btn">Copy link</button>
+        </div>
+        <p id="event-copy-confirm" class="copy-confirm hidden">Copied!</p>
+      </div>
+
+      <div class="event-layout">
+        <!-- My availability -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Your availability</h3>
+          </div>
+          <div class="name-row">
+            <input type="text" id="participant-name" placeholder="Your name (optional)" autocomplete="off" spellcheck="false" />
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="swatch swatch-avail"></span>Available</span>
+            <span class="legend-item"><span class="swatch swatch-tentative"></span>Tentative</span>
+            <span class="legend-item"><span class="swatch swatch-unavail"></span>Unavailable</span>
+          </div>
+          <div class="grid-scroll-wrap">
+            <div id="my-grid-wrap"></div>
+          </div>
+          <button id="submit-btn">Save availability</button>
+          <p id="submit-confirm" class="copy-confirm hidden">Saved!</p>
+        </div>
+
+        <!-- Group results -->
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Group availability</h3>
+            <span class="dim" id="response-count">0 responses</span>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="swatch swatch-full"></span>All available</span>
+            <span class="legend-item"><span class="swatch swatch-partial"></span>Some available</span>
+          </div>
+          <div class="grid-scroll-wrap">
+            <div id="results-grid-wrap"></div>
+          </div>
+          <div id="hover-tooltip" class="tooltip hidden"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
