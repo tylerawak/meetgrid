@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="g1" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#0288d1" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#04101e" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="#04101e"/>
+  <rect width="1200" height="630" fill="url(#g1)"/>
+  <rect x="36" y="36" width="1128" height="558" rx="14" fill="none" stroke="rgba(2,136,209,0.15)" stroke-width="1"/>
+
+  <!-- Mini grid mockup -->
+  <g transform="translate(510, 130)">
+    <rect width="180" height="110" rx="6" fill="rgba(2,136,209,0.08)" stroke="rgba(2,136,209,0.2)" stroke-width="1"/>
+    <rect x="8"  y="8"  width="38" height="22" rx="3" fill="rgba(2,136,209,0.5)"/>
+    <rect x="50" y="8"  width="38" height="22" rx="3" fill="rgba(2,136,209,0.2)"/>
+    <rect x="92" y="8"  width="38" height="22" rx="3" fill="rgba(2,136,209,0.5)"/>
+    <rect x="134" y="8" width="38" height="22" rx="3" fill="rgba(2,136,209,0.2)"/>
+    <rect x="8"  y="36" width="38" height="22" rx="3" fill="rgba(2,136,209,0.2)"/>
+    <rect x="50" y="36" width="38" height="22" rx="3" fill="rgba(2,136,209,0.5)"/>
+    <rect x="92" y="36" width="38" height="22" rx="3" fill="rgba(2,136,209,0.5)"/>
+    <rect x="134" y="36" width="38" height="22" rx="3" fill="rgba(2,136,209,0.2)"/>
+    <rect x="8"  y="64" width="38" height="22" rx="3" fill="rgba(2,136,209,0.5)"/>
+    <rect x="50" y="64" width="38" height="22" rx="3" fill="rgba(2,136,209,0.5)"/>
+    <rect x="92" y="64" width="38" height="22" rx="3" fill="rgba(2,136,209,0.2)"/>
+    <rect x="134" y="64" width="38" height="22" rx="3" fill="rgba(2,136,209,0.5)"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="316" font-family="Arial, sans-serif" font-size="68" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="2">MeetGrid</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="370" font-family="Arial, sans-serif" font-size="26" fill="rgba(255,255,255,0.5)" text-anchor="middle">Find a time that works for everyone</text>
+
+  <!-- Feature pills -->
+  <rect x="318" y="416" width="200" height="36" rx="18" fill="rgba(2,136,209,0.1)" stroke="rgba(2,136,209,0.35)" stroke-width="1"/>
+  <text x="418" y="439" font-family="Arial, sans-serif" font-size="16" fill="#64b5f6" text-anchor="middle">Share a Link</text>
+
+  <rect x="542" y="416" width="200" height="36" rx="18" fill="rgba(2,136,209,0.1)" stroke="rgba(2,136,209,0.35)" stroke-width="1"/>
+  <text x="642" y="439" font-family="Arial, sans-serif" font-size="16" fill="#64b5f6" text-anchor="middle">No Account Needed</text>
+
+  <text x="600" y="546" font-family="monospace" font-size="19" fill="rgba(255,255,255,0.18)" text-anchor="middle">meetgrid.tylerawak.net</text>
+</svg>
