@@ -680,3 +680,42 @@ select option { background: var(--surface2); }
   .tz-row { font-size: 12px; }
   #display-tz-select { max-width: 100%; width: 100%; }
 }
+
+/* ── How to Use section ───────────────────────────────────────────────────── */
+.how-to-use {
+  background: rgba(255,255,255,.03);
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 3rem 1.5rem;
+}
+.htu-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  color: rgba(255,255,255,.75);
+  line-height: 1.8;
+}
+.htu-inner h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.2rem;
+}
+.htu-inner h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.9);
+  margin: 1.6rem 0 .6rem;
+}
+.htu-inner ol,
+.htu-inner ul {
+  padding-left: 1.4rem;
+  margin-bottom: .8rem;
+}
+.htu-inner li {
+  margin-bottom: .55rem;
+}
+.htu-inner strong { color: #fff; }
+.site-footer a {
+  color: rgba(255,255,255,.5);
+  text-decoration: none;
+}
+.site-footer a:hover { color: #fff; }
